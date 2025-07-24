@@ -1,7 +1,7 @@
 const express = require('express');
 const { University, User, Faculty, Course } = require('../models');
 const authMiddleware = require('../middleware/authMiddleware');
-const { authorize } = authMiddleware;
+const { authorize } = require('../middleware/authMiddleware');
 const logger = require('../utils/logger');
 const { body, validationResult } = require('express-validator');
 
