@@ -247,14 +247,19 @@ const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
-    // Test database connection
-    await db.sequelize.authenticate();
-    logger.info('Database connection established successfully.');
-    
-    // Sync database in development
-    if (process.env.NODE_ENV === 'development') {
-      await db.sequelize.sync({ alter: true });
-      logger.info('Database synchronized successfully.');
+    // Test database connection (optional for development)
+    try {
+      await db.sequelize.authenticate();
+      logger.info('Database connection established successfully.');
+      
+      // Sync database in development
+      if (process.env.NODE_ENV === 'development') {
+        await db.sequelize.sync({ alter: true });
+        logger.info('Database synchronized successfully.');
+      }
+    } catch (dbError) {
+      logger.warn('Database connection failed, starting without database:', dbError.message);
+      logger.warn('Some features may not work without database connection.');
     }
     
     // Start server
